@@ -178,4 +178,27 @@ class SearchSpecificationTest {
         var field = ex.getMessage().split("'")[1];
         assertEquals("wrong", field);
     }
+
+    @Test
+    void single_type_conversion() {
+        var spec = new SearchSpecificationBuilder<Movie>()
+                .lessThan(Movie_.RELEASE_DATE, "1994-10-14")
+                .build();
+
+        var result = movieRepository.findAll(where(spec));
+        assertEquals(1, result.size());
+        assertEquals("The Shawshank Redemption", result.get(0).getTitle());
+    }
+
+    @Test
+    void list_type_conversion() {
+        var spec = new SearchSpecificationBuilder<Movie>()
+                .in(Movie_.RELEASE_DATE, List.of("2014-11-07", "2017-02-24"))
+                .build();
+
+        var result = movieRepository.findAll(where(spec));
+        assertEquals(2, result.size());
+        assertEquals("Get Out", result.get(0).getTitle());
+        assertEquals("Interstellar", result.get(1).getTitle());
+    }
 }

@@ -43,7 +43,7 @@ public class SearchSpecificationBuilder<T> {
         return this;
     }
 
-    public SearchSpecificationBuilder<T> in(String key, List<Object> values) {
+    public SearchSpecificationBuilder<T> in(String key, List<?> values) {
         return in(key, values.toArray());
     }
 
